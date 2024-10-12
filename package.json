@@ -14,5 +14,8 @@
     "nodemon": "^3.1.7",
     "websocket": "^1.0.35",
     "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "localtunnel": "^2.0.2"
   }
 }
