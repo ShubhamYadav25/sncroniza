@@ -20,5 +20,8 @@
 2. **Build the Docker Image**:
   ```bash
      docker build -t your-image-name .
+3. **Run the docker container**:
+  ```bash
+     docker run -p 3333:3333 your-image-name
 
 
