@@ -17,9 +17,7 @@
    ```bash
    git clone https://github.com/ShubhamYadav25/sncroniza.git
    cd sncroniza
-
 2. **Build the Docker Image**:
-  ```bash
    docker build -t your-image-name .
 
 
