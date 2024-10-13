@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
 </p>
 
-### Steps to Run the Project Using Docker
+## Steps to Run the Project Using Docker
 
 1. **Clone the Repository**:
    ```bash
@@ -20,9 +20,6 @@
 
 2. **Build the Docker Image**:
   ```bash
-    docker build -t your-image-name .
+   docker build -t your-image-name .
 
-3. **Run the Docker Container**:
-   ```bash 
-    docker run -p 3333:3333 your-image-name
 
