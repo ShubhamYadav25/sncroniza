@@ -15,5 +15,15 @@
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/sncroniza.git
+   git clone https://github.com/ShubhamYadav25/sncroniza.git
    cd sncroniza
+
+2. **Build the Docker Image**:
+  ```bash
+  docker build -t your-image-name .
+
+3. **Run the Docker Container**:
+  ```bash
+  docker run -p 3333:3333 your-image-name
+
+
