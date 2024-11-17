@@ -32,21 +32,31 @@ wss.on('connection', (ws) => {
         const parsedData = JSON.parse(data);
         console.log(parsedData);
 
-        // send the data to all connected clients
-        connectedClients.forEach(client => {
+        if (parsedData.type === 'ping') {
+            
+            console.log('Received ping from client');
+            
+            // Respond with pong to keep the connection alive
+            ws.send(JSON.stringify({ type: 'pong' })); 
+        
+        } else if (parsedData.type === 'message') {
+            
+            // send the data to all connected clients
+            connectedClients.forEach(client => {
 
-            // checking client is not sender and ensuring connected client is still awake
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
+                // checking client is not sender and ensuring connected client is still awake
+                if (client !== ws && client.readyState === WebSocket.OPEN) {
 
-                // send the msg to connected clients
-                client.send(JSON.stringify({
-                    type: 'message',
-                    sender: parsedData.sender,
-                    content: parsedData.content,
-                }));
-                console.log("Server is sending data > "+ parsedData +"\n")
-            }
-        });
+                    // send the msg to connected clients
+                    client.send(JSON.stringify({
+                        type: 'message',
+                        sender: parsedData.sender,
+                        content: parsedData.content,
+                    }));
+                    console.log("Server is sending data > " + parsedData + "\n")
+                }
+            });
+        }
     });
 
     // handling client disconnections

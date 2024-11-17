@@ -6,6 +6,8 @@ const joinButton = document.getElementById('joinButton');
 const onlineStatus = document.getElementById('onlineStatus');
 const userNameDisplay = document.getElementById('userNameDisplay');
 const sendButton = document.getElementById('sendButton');
+const disconnectButton = document.getElementById('disconnectButton');
+
 
 // Show the modal on page load
 window.onload = () => {
@@ -42,10 +44,13 @@ joinButton.addEventListener('click', () => {
      *WARN : if your connection is secure then use 'wss' here otherwise use 'ws' 
     * 
     */
-    const socket = new WebSocket('wss://delhi-shubham.loca.lt');  // ${window.location.hostname}:3000
+    const socket = new WebSocket('wss://delhi-shubhamq.loca.lt');  // ${window.location.hostname}:3000
 
     socket.onopen = () => {
         console.log('Connected to WebSocket server');
+
+        // start PING - PONG mechanism
+        startPingPong();
     };
 
     // Receive data from WebSocket server
@@ -53,9 +58,18 @@ joinButton.addEventListener('click', () => {
         
         // Parse broadcasted data received from server 
         const receivedMessageFromServer = JSON.parse(event.data.toString('utf-8'));
-        
-        // clipboardText.value = event.data;
-        displayMessage(receivedMessageFromServer.sender, receivedMessageFromServer.content, false);
+
+        if (receivedMessageFromServer.type === 'pong') {
+            console.log('Received pong from server');
+        } else {
+            // clipboardText.value = event.data;
+            displayMessage(receivedMessageFromServer.sender, receivedMessageFromServer.content, false);
+        }
+
+    };
+
+    socket.onerror = (error) => {
+        console.error('WebSocket Error:', error);
     };
 
     // // Detect clipboard changes
@@ -82,6 +96,27 @@ joinButton.addEventListener('click', () => {
         clipboardText.value = '';
     });
 
+    disconnectButton.addEventListener('click', () => {
+        if (socket && socket.readyState === WebSocket.OPEN) {
+            socket.close(); // Gracefully close the WebSocket connection
+            alert('You have disconnected from the chat.');
+        } else {
+            alert('Connection is already closed.');
+        }
+
+        window.location.reload();
+    });
+
+    function startPingPong() {
+        // Send ping every 10 seconds
+        pingInterval = setInterval(() => {
+            if (socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({ type: 'ping' }));
+                console.log('Sent ping to server');
+            }
+        }, 30000); // Ping every 10 seconds
+    }
+
     // On page load, load clipboard content into the textarea
     navigator.clipboard.readText().then(text => {
         clipboardText.value = text;
@@ -103,3 +138,4 @@ function displayMessage(sender, message, isSelf) {
     // Scroll to the latest message
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
+
