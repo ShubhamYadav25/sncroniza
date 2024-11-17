@@ -10,8 +10,29 @@
 
 <body>
 
-    <h1>Paste your message here</h1>
-    <textarea id="clipboardText" placeholder="Clipboard data will appear here..."></textarea>
+    <!-- Auth -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <h2>Enter Credentials</h2>
+            <input type="text" id="username" placeholder="Username" required />
+            <input type="password" id="password" placeholder="Password" required />
+            <button id="joinButton">Join</button>
+        </div>
+    </div>
+
+    <!-- Online Status -->
+    <div id="onlineStatus" class="online-status" style="display: none;">
+        <span class="dot"></span>
+        <span id="userNameDisplay"></span>
+    </div>
+
+    <div id="chatRoom">
+        <div id="messagesContainer"></div>
+        <div id="messageBox">
+            <input type="text" id="clipboardText" placeholder="Type your message..." />
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 
