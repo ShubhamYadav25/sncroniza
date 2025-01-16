@@ -1,5 +1,5 @@
 const SERVER_PORT = 3333;
-const LOCAL_TUNNEL_SUBDOMAIN = 'delhi-shubhamq';
+const LOCAL_TUNNEL_SUBDOMAIN = 'chattt-room-demo';
 
 // events
 const MessageEvent = 'message';

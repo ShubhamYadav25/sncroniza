@@ -16,6 +16,16 @@ app.use(express.static(path.join(__dirname, '../client')));
 
 const wss = new WebSocket.Server({ server });
 
+// Listen to the 'upgrade' event on the HTTP server
+server.on('upgrade', (request, socket, head) => {
+    console.log('--- Upgrade Request Received ---');
+    console.log(`Method: ${request.method}`);
+    console.log(`URL: ${request.url}`);
+    console.log(`Headers:`, request.headers);
+    console.log(`Connection: ${request.headers.connection}`);
+    console.log(`Upgrade: ${request.headers.upgrade}`);
+});
+
 // connected clients
 let connectedClients = [];
 
@@ -73,11 +83,11 @@ const localIp = getIPAddress();
 server.listen(SERVER_PORT, async () => {
     console.log(`Server running at http://${localIp}:${SERVER_PORT}`);
 
-    const tunnel = await localtunnel({ port: SERVER_PORT, subdomain: LOCAL_TUNNEL_SUBDOMAIN });
+    // const tunnel = await localtunnel({ port: SERVER_PORT, subdomain: LOCAL_TUNNEL_SUBDOMAIN });
 
-    console.log(`Tunnel is open at ${tunnel.url}`);
+    // console.log(`Tunnel is open at ${tunnel.url}`);
 
-    tunnel.on('close', () => {
-        console.log('Tunnel is closed');
-    });
+    // tunnel.on('close', () => {
+    //     console.log('Tunnel is closed');
+    // });
 });
